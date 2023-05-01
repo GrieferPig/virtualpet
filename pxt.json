@@ -3,8 +3,7 @@
     "description": "",
     "dependencies": {
         "core": "*",
-        "i2cLCD1602": "github:makecode-extensions/i2clcd1602#v1.5.0",
-        "microphone": "*"
+        "i2cLCD1602": "github:makecode-extensions/i2clcd1602#v1.5.0"
     },
     "files": [
         "main.ts",
@@ -15,9 +14,7 @@
         "emotions.ts",
         "ttt.ts"
     ],
-    "testFiles": [
-        "test.ts"
-    ],
+    "testFiles": [],
     "targetVersions": {
         "target": "5.0.12",
         "targetId": "microbit"

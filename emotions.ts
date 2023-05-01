@@ -6,13 +6,7 @@ function showTalkAnim(duration: number) {
                 showHappyFace()
                 return
             }
-            basic.showLeds(`
-            . # . # .
-            . # . # .
-            . . . . .
-            # . . . #
-            . # # # .
-            `, 0)
+            showHappyFace()
             basic.pause(250)
             basic.showLeds(`
             . # . # .

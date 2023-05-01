@@ -24,3 +24,25 @@ function getChatMsg(happiness: number, sleepiness: number, hunger: number){
 function randomChoose(options: string[]) {
     return options[Math.floor(Math.random() * options.length)]
 }
+
+function getPlayMsgLosing(): string{
+    if (happiness > 60) {
+        return randomChoose(ChatList.TicTacToe.losing_tie.happy)
+    } else if (happiness > 40) {
+        return randomChoose(ChatList.TicTacToe.losing_tie.neutral)
+    } else if (happiness > 10){
+        return randomChoose(ChatList.TicTacToe.losing_tie.angry)
+    } else {
+        return randomChoose(ChatList.TicTacToe.no_more_game)
+    }
+}
+
+function getPlayMsgWinning(): string {
+    if (happiness > 60) {
+        return randomChoose(ChatList.TicTacToe.winning.happy)
+    } else if (happiness > 40) {
+        return randomChoose(ChatList.TicTacToe.winning.neutral)
+    } else {
+        return randomChoose(ChatList.TicTacToe.winning.angry)
+    }
+}

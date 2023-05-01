@@ -1,4 +1,4 @@
-let isTempShown = false
+// let isTempShown = false
 let happiness = 80
 let sleepiness = 30
 let hunger = 0
@@ -15,7 +15,6 @@ let sleeping = false
 
 // init lcd
 I2C_LCD1602.LcdInit(0)
-I2C_LCD1602.BacklightOn()
 
 let is_showing = false
 let request_stop = false
@@ -63,15 +62,13 @@ input.onButtonPressed(Button.B, function () {
 })
 
 input.onButtonPressed(Button.AB, function () {
-    play()
+    if (!haltBackgroundTasks){
+        haltBackgroundTasks = true
+        stopMsg()
+        play()
+        haltBackgroundTasks = false
+    }
 })
-
-input.onSound(DetectedSound.Loud, function () {
-    let msg = randomChoose(ChatList.OnSound)
-    showTalkAnim(msg.length * MSG_CHAR_DELAY)
-    showMsg(msg)
-})
-
 
 function stopMsg() {
     if (is_showing) {
@@ -84,7 +81,10 @@ function stopMsg() {
     }
 }
 
-function showMsgAsync(str: string, status?: string) {
+function showMsgAsync(str: string, status?: string, monopoly?: boolean) {
+    if (monopoly) {
+        haltBackgroundTasks = true;
+    }
     stopMsg()
     is_showing = true
     I2C_LCD1602.clear()
@@ -124,87 +124,46 @@ function showMsgAsync(str: string, status?: string) {
         }
     }
     is_showing = false;
+    if (monopoly) {
+        haltBackgroundTasks = false;
+    }
 }
 
 function showMsg(str: string, status?: string, monopoly?: boolean) {
     control.runInParallel(function () {
-        if (monopoly) {
-            haltBackgroundTasks = true;
-        }
-        stopMsg()
-        is_showing = true
-        I2C_LCD1602.clear()
-        isLcdShifted = false;
-        screenspace_status = "Big Byte:"
-        if (status) {
-            screenspace_status = status
-        }
-        I2C_LCD1602.ShowString(screenspace_status, 0, 0)
-        let actual_counter = 0
-        for (let i = 0; i <= str.length - 1; i++) {
-            if (request_stop) {
-                is_stopped = true
-                is_showing = false
-                return;
-            } else {
-                actual_counter++
-                // lcd1602 have 2 lines with 40 bytes of buffer.
-                // Clear if running out of space
-                if (actual_counter > 40) {
-                    I2C_LCD1602.clear()
-                    isLcdShifted = false;
-                    // redraw previous 15 chars
-                    I2C_LCD1602.ShowString(str.slice(i - 15, i), 0, 1)
-                    actual_counter = 16
-                }
-                // shift left because only 16 char can be disp inline at once
-                if (actual_counter > 16) {
-                    I2C_LCD1602.shl()
-                    isLcdShifted = true;
-                }
-                if (str[i] == undefined) {
-                    return
-                }
-                I2C_LCD1602.ShowString(str[i], actual_counter - 1, 1)
-                basic.pause(MSG_CHAR_DELAY)
-            }
-        }
-        is_showing = false;
-        if (monopoly) {
-            haltBackgroundTasks = false;
-        }
+        showMsgAsync(str, status, monopoly)
     })
 }
 
 // falling detect
-input.onGesture(Gesture.ThreeG, function () {
-    if (!haltBackgroundTasks) {
-        showSadFace()
-        showMsg(randomChoose(ChatList.Fall))
-    }
-})
+// input.onGesture(Gesture.ThreeG, function () {
+//     if (!haltBackgroundTasks) {
+//         showSadFace()
+//         showMsg(randomChoose(ChatList.Fall))
+//     }
+// })
 
 // temperature check
-basic.forever(function () {
-    if (!haltBackgroundTasks) {
-        basic.pause(10000)
-        if (input.temperature() < 10) {
-            if (!(isTempShown)) {
-                showNeutralFace()
-                showMsg(ChatList.Temp.cold)
-                isTempShown = true
-            }
-        } else if (input.temperature() > 30) {
-            if (!(isTempShown)) {
-                showNeutralFace()
-                showMsg(ChatList.Temp.hot)
-                isTempShown = true
-            }
-        } else {
-            isTempShown = false
-        }
-    }
-})
+// basic.forever(function () {
+//     if (!haltBackgroundTasks) {
+//         basic.pause(10000)
+//         if (input.temperature() < 10) {
+//             if (!(isTempShown)) {
+//                 showNeutralFace()
+//                 showMsg(ChatList.Temp.cold)
+//                 isTempShown = true
+//             }
+//         } else if (input.temperature() > 30) {
+//             if (!(isTempShown)) {
+//                 showNeutralFace()
+//                 showMsg(ChatList.Temp.hot)
+//                 isTempShown = true
+//             }
+//         } else {
+//             isTempShown = false
+//         }
+//     }
+// })
 
 // chat
 basic.forever(function () {
@@ -212,15 +171,16 @@ basic.forever(function () {
     // basic.pause(MSG_DELAY - msg.length * MSG_CHAR_DELAY)
     basic.pause(MSG_DELAY)
     if (!is_showing && !haltBackgroundTasks) {
-        if (happiness > 20) {
-            let rand = Math.random()
-            if (rand < 0.1) {
-                askForWalk()
-                return;
-            } else if (rand > 0.92) {
-                return;
-            }
-        }
+        // if (happiness > 20) {
+        //     let rand = Math.random()
+        //     if (rand < 0.1) {
+        //         askForWalk()
+        //         return;
+        //     } else if (rand > 0.92) {
+        //         askForPlay()
+        //         return;
+        //     }
+        // }
         showMsg(msg)
         showTalkAnim(msg.length * MSG_CHAR_DELAY)
     }
@@ -288,15 +248,15 @@ basic.forever(function () {
     }
 })
 
-basic.forever(function () {
-    if (!haltBackgroundTasks) {
-        basic.pause(500)
-        if (input.logoIsPressed()) {
-            pat()
-        }
-    }
-    basic.pause(300)
-})
+// basic.forever(function () {
+//     if (!haltBackgroundTasks) {
+//         basic.pause(500)
+//         if (input.logoIsPressed()) {
+//             pat()
+//         }
+//     }
+//     basic.pause(300)
+// })
 
 // check for dying
 basic.forever(function () {
@@ -415,11 +375,11 @@ function die() {
     showMsgAsync(ChatList.Die.death_msg, ChatList.Die.death_status)
 }
 
-function pat() {
-    showMsg(ChatList.Pat.stat_report, "Big Byte:", true)
-    happiness += 5
-    checkVarSanity()
-}
+// function pat() {
+//     showMsg(ChatList.Pat.stat_report, "Big Byte:", true)
+//     happiness += 5
+//     checkVarSanity()
+// }
 
 function checkVarSanity() {
     if (happiness > 100) {
