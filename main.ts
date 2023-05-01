@@ -1,4 +1,4 @@
-// let isTempShown = false
+let isTempShown = false
 let happiness = 80
 let sleepiness = 30
 let hunger = 0
@@ -61,14 +61,14 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 
-input.onButtonPressed(Button.AB, function () {
-    if (!haltBackgroundTasks){
-        haltBackgroundTasks = true
-        stopMsg()
-        play()
-        haltBackgroundTasks = false
-    }
-})
+// input.onButtonPressed(Button.AB, function () {
+//     if (!haltBackgroundTasks){
+//         haltBackgroundTasks = true
+//         stopMsg()
+//         play()
+//         haltBackgroundTasks = false
+//     }
+// })
 
 function stopMsg() {
     if (is_showing) {
@@ -136,34 +136,34 @@ function showMsg(str: string, status?: string, monopoly?: boolean) {
 }
 
 // falling detect
-// input.onGesture(Gesture.ThreeG, function () {
-//     if (!haltBackgroundTasks) {
-//         showSadFace()
-//         showMsg(randomChoose(ChatList.Fall))
-//     }
-// })
+input.onGesture(Gesture.ThreeG, function () {
+    if (!haltBackgroundTasks) {
+        showSadFace()
+        showMsg(randomChoose(ChatList.Fall))
+    }
+})
 
 // temperature check
-// basic.forever(function () {
-//     if (!haltBackgroundTasks) {
-//         basic.pause(10000)
-//         if (input.temperature() < 10) {
-//             if (!(isTempShown)) {
-//                 showNeutralFace()
-//                 showMsg(ChatList.Temp.cold)
-//                 isTempShown = true
-//             }
-//         } else if (input.temperature() > 30) {
-//             if (!(isTempShown)) {
-//                 showNeutralFace()
-//                 showMsg(ChatList.Temp.hot)
-//                 isTempShown = true
-//             }
-//         } else {
-//             isTempShown = false
-//         }
-//     }
-// })
+basic.forever(function () {
+    if (!haltBackgroundTasks) {
+        basic.pause(10000)
+        if (input.temperature() < 10) {
+            if (!(isTempShown)) {
+                showNeutralFace()
+                showMsg(ChatList.Temp.cold)
+                isTempShown = true
+            }
+        } else if (input.temperature() > 30) {
+            if (!(isTempShown)) {
+                showNeutralFace()
+                showMsg(ChatList.Temp.hot)
+                isTempShown = true
+            }
+        } else {
+            isTempShown = false
+        }
+    }
+})
 
 // chat
 basic.forever(function () {
@@ -171,16 +171,16 @@ basic.forever(function () {
     // basic.pause(MSG_DELAY - msg.length * MSG_CHAR_DELAY)
     basic.pause(MSG_DELAY)
     if (!is_showing && !haltBackgroundTasks) {
-        // if (happiness > 20) {
-        //     let rand = Math.random()
-        //     if (rand < 0.1) {
-        //         askForWalk()
-        //         return;
-        //     } else if (rand > 0.92) {
-        //         askForPlay()
-        //         return;
-        //     }
-        // }
+        if (happiness > 20) {
+            let rand = Math.random()
+            if (rand < 0.1) {
+                askForWalk()
+                return;
+            } else if (rand > 0.92) {
+                // askForPlay()
+                return;
+            }
+        }
         showMsg(msg)
         showTalkAnim(msg.length * MSG_CHAR_DELAY)
     }
@@ -248,15 +248,15 @@ basic.forever(function () {
     }
 })
 
-// basic.forever(function () {
-//     if (!haltBackgroundTasks) {
-//         basic.pause(500)
-//         if (input.logoIsPressed()) {
-//             pat()
-//         }
-//     }
-//     basic.pause(300)
-// })
+basic.forever(function () {
+    if (!haltBackgroundTasks) {
+        basic.pause(500)
+        if (input.logoIsPressed()) {
+            pat()
+        }
+    }
+    basic.pause(300)
+})
 
 // check for dying
 basic.forever(function () {
@@ -375,11 +375,11 @@ function die() {
     showMsgAsync(ChatList.Die.death_msg, ChatList.Die.death_status)
 }
 
-// function pat() {
-//     showMsg(ChatList.Pat.stat_report, "Big Byte:", true)
-//     happiness += 5
-//     checkVarSanity()
-// }
+function pat() {
+    showMsg(ChatList.Pat.stat_report, "Big Byte:", true)
+    happiness += 5
+    checkVarSanity()
+}
 
 function checkVarSanity() {
     if (happiness > 100) {

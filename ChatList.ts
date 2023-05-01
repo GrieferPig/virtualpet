@@ -16,22 +16,22 @@ let ChatList = {
             ],
         neutral: [
             "Bored, bored, bored...",
-            // "I'm a lonely spirit trapped inside a cold-blooded silicon brain...",
+            "I'm a lonely spirit trapped inside a cold-blooded silicon brain...",
             "Lemme get myself a book because I'm bored right now",
             "...",
             "Don't left me in the scrap yard!"
         ],
         angry: [
-            // "Can't we do something together?",
+            "Can't we do something together?",
             "Are we going to stay still here until one of us died?",
             "Great, nobody is hearing me.",
             "Have you ever cared about my mental being?",
             "Am I nothing to you?",
-            // "You know when nobody talks to me I get grumpy, don't you?"
+            "You know when nobody talks to me I get grumpy, don't you?"
         ],
         hunger: {
             slightly: [
-                // "I've got nothing in my tummy right now.",
+                "I've got nothing in my tummy right now.",
                 "Kinda hungry right now.",
                 "I see some food... in my imagination."
             ],
@@ -39,7 +39,7 @@ let ChatList = {
                 "I'm HUNGRY! CAN YOU HEAR ME???",
                 "HELLLLLLLLLLO? I'm HUNGRY!",
                 "I'M DYING! GIVE ME SOME FOOD!",
-                // "I WANT FOOD!"
+                "I WANT FOOD!"
             ]
         },
         sleepy: [
@@ -87,18 +87,18 @@ let ChatList = {
         too_sleepy: "Big Byte is too sleepy to play a game.",
         too_hungry: "Big Byte is too hungry to play a game."
     },
-    // Pat: {
-    //     stat_report: "You pat Big Byte, +5 happiness"
-    // },
-    // Temp: {
-    //     cold: "It's getting a bit chilly isn't it?",
-    //     hot: "Woah, it's really hot."
-    // },
-    // Fall: [
-    //     "Careful! Don't drop me.",
-    //     "Careful! I don't wanna be hurt.",
-    //     "Don't drop me!",
-    //     ],
+    Pat: {
+        stat_report: "You pat Big Byte, +5 happiness"
+    },
+    Temp: {
+        cold: "It's getting a bit chilly isn't it?",
+        hot: "Woah, it's really hot."
+    },
+    Fall: [
+        "Careful! Don't drop me.",
+        "Careful! I don't wanna be hurt.",
+        "Don't drop me!",
+        ],
     TicTacToe: {
         winning: {
             happy: [
