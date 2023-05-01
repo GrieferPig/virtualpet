@@ -1,0 +1,29 @@
+{
+    "name": "virtualpet",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "i2cLCD1602": "github:makecode-extensions/i2clcd1602#v1.5.0",
+        "microphone": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md",
+        "ChatList.ts",
+        "chat.ts",
+        "eatnwalk.ts",
+        "emotions.ts",
+        "ttt.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "5.0.12",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}
